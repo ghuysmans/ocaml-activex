@@ -3,6 +3,7 @@ open Js_of_ocaml
 type obj
 
 val obj : (Js.js_string Js.t -> obj Js.t) Js.constr
+val get_object : string -> obj Js.t
 
 type variant =
   | Empty : variant

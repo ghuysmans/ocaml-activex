@@ -4,13 +4,17 @@ type obj
 
 class type winax = object
   method _Object : (Js.js_string Js.t -> obj Js.t) Js.constr Js.prop
-  (* TODO handle options *)
+  method _Object_opt : (Js.js_string Js.t -> _ Js.t -> obj Js.t) Js.constr Js.prop
   (* TODO variant wrapper constructor *)
 end
 
 external winax : unit -> winax Js.t = "caml_get_winax"
 
 let obj = (winax ())##._Object
+
+let get_object x =
+  let c = (winax ())##._Object_opt in
+  new%js c (Js.string x) (object%js val getobject = Js._true end)
 
 type variant =
   | Empty : variant
