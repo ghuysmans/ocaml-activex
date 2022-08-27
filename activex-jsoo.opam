@@ -1,0 +1,26 @@
+opam-version: "2.0"
+synopsis: "Bindings to ActiveX through winax (Node.js)"
+maintainer: ["Guillaume Huysmans <ghuysmans99@gmail.com>"]
+authors: ["Guillaume Huysmans <ghuysmans99@gmail.com>"]
+license: "MIT"
+homepage: "https://github.com/ghuysmans/ocaml-activex"
+bug-reports: "https://github.com/ghuysmans/ocaml-activex/issues"
+depends: [
+  "dune" {>= "2.7"}
+	"js_of_ocaml"
+]
+build: [
+  ["dune" "subst"] {dev}
+  [
+    "dune"
+    "build"
+    "-p"
+    name
+    "-j"
+    jobs
+    "@install"
+    "@runtest" {with-test}
+    "@doc" {with-doc}
+  ]
+]
+dev-repo: "git+https://github.com/ghuysmans/ocaml-activex.git"
