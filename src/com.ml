@@ -66,14 +66,20 @@ module IEnumVARIANT = struct
     fold_left (fun () x -> f x) () o
 end
 
-module Enumerable = struct
+module EnumerableMeth = struct
   class type ['a] t = object
     method __NewEnum : 'a IEnumVARIANT.t Js.t Js.meth
   end
 
-  let fold_left f init (o : _ #t Js.t) =
-    IEnumVARIANT.fold_left f init o##__NewEnum
+  let fold_left f init o = IEnumVARIANT.fold_left f init o##__NewEnum
+  let iter f o = IEnumVARIANT.iter f o##__NewEnum
+end
 
-  let iter f o =
-    IEnumVARIANT.iter f o##__NewEnum
+module EnumerableProp = struct
+  class type ['a] t = object
+    method __NewEnum : 'a IEnumVARIANT.t Js.t Js.readonly_prop
+  end
+
+  let fold_left f init o = IEnumVARIANT.fold_left f init o##.__NewEnum
+  let iter f o = IEnumVARIANT.iter f o##.__NewEnum
 end

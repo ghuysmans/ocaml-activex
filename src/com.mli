@@ -25,12 +25,18 @@ module IEnumVARIANT : sig
   val iter : ('a -> unit) -> 'a #t Js.t -> unit
 end
 
-module Enumerable : sig
+module EnumerableMeth : sig
   class type ['a] t = object
     method __NewEnum : 'a IEnumVARIANT.t Js.t Js.meth
   end
   val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b #t Js.t -> 'a
-  val iter :
-    ('a -> unit) ->
-    < __NewEnum : 'a #IEnumVARIANT.t Js.t Js.meth; .. > Js.t -> unit
+  val iter : ('a -> unit) -> 'a #t Js.t -> unit
+end
+
+module EnumerableProp : sig
+  class type ['a] t = object
+    method __NewEnum : 'a IEnumVARIANT.t Js.t Js.readonly_prop
+  end
+  val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b #t Js.t -> 'a
+  val iter : ('a -> unit) -> 'a #t Js.t -> unit
 end
