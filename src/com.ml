@@ -51,3 +51,29 @@ let to_variant x =
     else
       Object x
   )
+
+module IEnumVARIANT = struct
+  class type ['a] t = object
+    method _Next : 'a Js.Opt.t Js.meth
+  end
+
+  let rec fold_left f init (o : _ #t Js.t) =
+    match Js.Opt.to_option o##_Next with
+    | None -> init
+    | Some x -> fold_left f (f init x) o
+
+  let iter f o =
+    fold_left (fun () x -> f x) () o
+end
+
+module Enumerable = struct
+  class type ['a] t = object
+    method __NewEnum : 'a IEnumVARIANT.t Js.t Js.meth
+  end
+
+  let fold_left f init (o : _ #t Js.t) =
+    IEnumVARIANT.fold_left f init o##__NewEnum
+
+  let iter f o =
+    IEnumVARIANT.iter f o##__NewEnum
+end

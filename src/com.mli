@@ -16,3 +16,21 @@ type variant =
 
 val to_variant : _ Js.t Js.Opt.t -> variant
 val variant : variant -> Js.Unsafe.any
+
+module IEnumVARIANT : sig
+  class type ['a] t = object
+    method _Next : 'a Js.opt Js.meth
+  end
+  val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b #t Js.t -> 'a
+  val iter : ('a -> unit) -> 'a #t Js.t -> unit
+end
+
+module Enumerable : sig
+  class type ['a] t = object
+    method __NewEnum : 'a IEnumVARIANT.t Js.t Js.meth
+  end
+  val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b #t Js.t -> 'a
+  val iter :
+    ('a -> unit) ->
+    < __NewEnum : 'a #IEnumVARIANT.t Js.t Js.meth; .. > Js.t -> unit
+end
