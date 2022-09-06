@@ -83,3 +83,9 @@ module EnumerableProp = struct
   let fold_left f init o = IEnumVARIANT.fold_left f init o##.__NewEnum
   let iter f o = IEnumVARIANT.iter f o##.__NewEnum
 end
+
+type 'a proxy = < ___value_: 'a Js.readonly_prop > Js.t
+type 'a readonly_prop = 'a proxy Js.readonly_prop
+type 'a writeonly_prop = 'a Js.writeonly_prop
+type 'a prop = < get : 'a proxy ; set : 'a -> unit > Js.gen_prop
+type 'a optdef_prop = < get : 'a Js.optdef proxy ; set : 'a -> unit > Js.gen_prop

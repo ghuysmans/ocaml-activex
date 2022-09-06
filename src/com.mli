@@ -40,3 +40,9 @@ module EnumerableProp : sig
   val fold_left : ('a -> 'b -> 'a) -> 'a -> 'b #t Js.t -> 'a
   val iter : ('a -> unit) -> 'a #t Js.t -> unit
 end
+
+type 'a proxy = < ___value_: 'a Js.readonly_prop > Js.t
+type 'a readonly_prop = 'a proxy Js.readonly_prop
+type 'a writeonly_prop = 'a Js.writeonly_prop
+type 'a prop = < get : 'a proxy ; set : 'a -> unit > Js.gen_prop
+type 'a optdef_prop = < get : 'a Js.optdef proxy ; set : 'a -> unit > Js.gen_prop
